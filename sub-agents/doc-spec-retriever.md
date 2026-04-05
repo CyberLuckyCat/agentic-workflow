@@ -1,10 +1,18 @@
 # SUBAGENTS
 
-按照一定的规则，为requirement中的notes.md写入笔记或更新相关规范，并自动提PR修复。
+同文章中的"engineering-spec-retriever"，改名为doc-spec-retriever感觉更符合用途与归类。
+
+作用：规范检索。
 
 
 TODO: 如何随手记录，如何在需求确认验收后提取局部requirement中的notes.md（知识提炼，将需求专属的结构化经验、SOP或检查清单）沉淀到context/中
 
+
+# 职责
+
+减少主Agent的上下文消耗。
+
+专门使用此Subagent，查阅需求内的notes.md规范文档，并返回给主Agent。
 
 # 规范
 

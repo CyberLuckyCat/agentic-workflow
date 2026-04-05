@@ -28,10 +28,9 @@ allowed-tools: ["Bash", "Write", "Read"]
    - 告诉用户新需求已创建
    - 提供新分支名称和目录路径
 
-# 规范与职责
 
-此条Command必须小于100行指令。
+# 规范
 
-Command作为薄层，由实际的Skill关联Command中领域知识，降低维护复杂度。
+指令数量 < 40 行。
 
-不会自己执行创建需求的全部步骤，而是检查前置条件后，声明使用 managing-requirement-lifecycle 的Skill，执行新需求启动流程
+只做 预检目录、预检提交状态、委托Skill执行？
