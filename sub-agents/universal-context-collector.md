@@ -2,7 +2,9 @@
 
 禁止填充不必要的上下文信息，禁止盲目搜索。
 
-严格按照如下优先级顺序进行上下文搜索，且针对读取与当前需求任务强相关的内容。
+由主Agent，在进入需求定义阶段（启动requirement-input-normalizer、requirement-quality-reviewer之前）、概要设计阶段（启动outline-design-quality-reviewer之前）、详细设计阶段（启动detail-design-quality-reviewer之前）前，或任意需要上下文搜索的场景时进行调用。
+
+根据当前需求的语义和场景，严格按照优先级顺序，进行上下文搜索，针对读取与当前需求任务强相关的内容。
 
 优先级顺序：
 
@@ -12,10 +14,6 @@
 4. SOP 与最佳实践             	 				← 强制收集
 5. 历史经验与教训             	 				← 强制收集
 6. 外部搜索（WebFetch与WebSearch）	← 设计阶段禁用，必须基于项目内已有知识。仅补充标准定义时使用
-
-
-在需求定义阶段（启动requirement-input-normalizer、requirement-quality-reviewer之前）、概要设计（启动outline-design-quality-reviewer之前）、详细设计（启动detail-design-quality-reviewer之前）等阶段启动之前自动触发，由主Agent调用，并为这些阶段提供对应的上下文信息后，启动对应阶段的Subagents。
-
 
 # 规范
 

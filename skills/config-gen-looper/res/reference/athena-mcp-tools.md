@@ -1,0 +1,1 @@
+AthenaMCP 调用模板

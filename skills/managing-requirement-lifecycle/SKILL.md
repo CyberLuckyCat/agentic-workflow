@@ -6,6 +6,14 @@
 
 skills/skillnamefold 作为一个完整的知识包。
 
+
+TODO：往该skill的res目录中写入规则时，每条规则都要回答：
+
+1、这条规则被违反的频率有多高？
+
+2、如果违反频率很低，则不需要每次执行时都会加载进入上下文中，浪费上下文空间。
+
+
 # 描述与职责
 
 阶段切换间存在强制门禁，如：进入开发阶段前，必须通过详细设计评审。进入测试阶段前，必须通过追溯链条完成完整性检查。
@@ -13,7 +21,6 @@ skills/skillnamefold 作为一个完整的知识包。
 requirement-new / requirement-continue / requirement-next 三者共享同一套领域（context/project？）的知识。
 
 由 requirement-new 的command在检查前置条件后主动使用（领域知识收敛到Skill内）
-
 
 1、requirement 的意图识别。
 

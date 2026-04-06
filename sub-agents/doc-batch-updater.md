@@ -1,10 +1,14 @@
 # SUBAGENTS
 
-按照一定的规则，为requirement中的notes.md写入笔记或更新相关规范，并自动提PR修复。
+由主Agent根据doc-spec-curator的规则步骤，触发doc-batch-updater。
 
+规则步骤：
 
-TODO: 如何随手记录，如何在需求确认验收后提取局部requirement中的notes.md（知识提炼，将需求专属的结构化经验、SOP或检查清单）沉淀到context/中
+1、为requirement中的notes.md新增内容或更新相关规范。
 
+2、TODO: 使用xxxx skill结合context/team下的git规范，自动提PR到main分支（只有main分支是同步沉淀这些内容的，其他跟随feature分支切换不同的requirement）。
+
+PR这部分是需要人类review的，审查知识的更新是否准确、AI读取到之后能否做出正确判断，扫一眼有没有误导性内容后合入。
 
 # 规范
 

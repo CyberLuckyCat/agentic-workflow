@@ -1,6 +1,6 @@
 # SUBAGENTS
 
-新的对话上下文窗口启动时，自动读取meta.yaml、process.txt、notes.md并回复需求进度的上下文。
+自动读取meta.yaml（需求处于哪个阶段）、process.txt（需求当前的进度）、notes.md（需求实现过程中发生了什么），还原需求进度的上下文。
 
 # 职责
 
@@ -9,6 +9,8 @@
 2、读取process.txt
 
 3、读取notes.md
+
+4、TODO: 结合前三个步骤中的文件内容，结合universal-context-collector返回的内容，还原工作区上下文？（我感觉其实有点冗余，因为如果这三个文件本身就是上下文进度的话，直接读取不就好了？）
 
 # 规范
 
