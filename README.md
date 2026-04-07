@@ -1,22 +1,14 @@
-# AgenticMetaEngineering
+# agentic-workflow
 
-## 团队共享：单仓库模式
+## 团队共享：单仓库，基于main分支基类知识、工具。
 
+### 单仓库
 
-> 为什么用单仓库？
-
-
-
-既然大模型是无状态函数，那么团队其实不需要"50 个 Agent 实例"，只需要"**1 个 Agent 工程 + 50 个独立的上下文空间**"。
-
-
+> 大模型是无状态函数，团队协作时无需"50 个 Agent 实例"，只需"**1 个 Agent 作为包工头 + n 个Subagent的独立上下文空间**"。
 
 这里说的"单仓库"有两层含义：
 
-
 ### 第一层：团队共享同一套 AI 配置（知识层面）
-
-
 
 传统做法是每个人各自维护自己的 AI 配置——你的 CLAUDE.md 和我的 CLAUDE.md 完全不同。问题是：
 
@@ -26,8 +18,6 @@
 
 **单仓库的解法**：把 CLAUDE.md、context/、.codebuddy/ 等 AI 配置文件**统一放在一个 Git 仓库里，团队成员通过 clone 这个仓库获得完全一致的 AI "记忆"**。
 
-
-
 ### 第二层：并行工作时的隔离（执行层面）
 
 Claude Code 创作者的实践验证了这一点：
@@ -36,22 +26,39 @@ Claude Code 创作者的实践验证了这一点：
 
 关键在于：每个 checkout 都包含**相同的 CLAUDE.md 和团队知识**（因为都是从同一个仓库 clone 的），但各自在**独立的分支**上工作，互不干扰。
 
-
 ```md
-团队共享仓库（master）
-├── CLAUDE.md          ← 所有人共用的 AI 记忆
-├── context/           ← 所有人共用的知识库
-└── .codebuddy/        ← 所有人共用的工具
+共享仓库作为主分支（main）
+├── CLAUDE 或 任意CLI的可识别AGENTS.md           # 共用的AI行为准则
+├── any-cli 任意CLI工具/                        # 共用的工具（包括cli用到的任意拓展内容）
+│   ├── commands/                              
+│   ├── skills/
+│   ├── plugins/
+│   ├── tools/
+│   ├── hooks/
+│   ├── ...
+│   └── ...
+└── context/                                   # 所有人共用的团队知识库
+│   ├── team/                                  # 团队通用知识
+│   ├── project/                               # 项目特定知识
+│   ├── ...
+│   └── ...
+├── requirements/                              # 需求汇总根目录
+    └── {requirement-id}/                      # 每个需求位于不同feature分支
+            ├── workspace/                     # 需求的工作区
+            └── ...
+    └── {requirement-id}/                      # 每个需求位于不同feature分支
+            ├── workspace/                     # 需求的工作区
+            └── ...
 
-开发者 A 的 checkout     开发者 B 的 checkout     开发者 C 的 checkout
-├── (继承 master)        ├── (继承 master)        ├── (继承 master)
-├── feature/auth         ├── feature/payment      ├── bugfix/login
-└── 独立的工作空间        └── 独立的工作空间        └── 独立的工作空间
+不同fea分支，对应不同需求名或id
+
+开发者 A 的 feature/auth     开发者 B 的 feature/payment     开发者 C 的 bugfix/login
+  ├── 继承 main               ├── 继承 main                   ├── (继承 main)
+  └── requirement-id          └── requirement-id              └── requirement-id
+        └── workspace/              └── workspace/                   └── workspace/
+            └── ...                     └── ...                          └── ...
 ```
-
 **这样实现了**：知识共享（大家的 AI 都知道同样的事情）+ 工作隔离（各自的代码改动不会冲突）。
-
-
 
 **总结——传统模式 vs 单仓库模式：**
 |维度|传统模式|单仓库模式
@@ -61,42 +68,10 @@ Claude Code 创作者的实践验证了这一点：
 |好的实践| 只能口头相传| Git版本管理, 合并到master瞬间分发|
 |并行工作| 容易冲突| 独立分支隔离，互不干扰|
 
-
-
-#### **目录结构**
-```md
-AgenticMetaEngineering/
-├── AGENTS.md              # AI 的"入职手册"（最重要）
-├── context/                  # 团队知识库
-│   ├── team/                 # 团队通用知识
-│   └── project/              # 项目特定知识
-├── requirements/             # 需求记录（Git 管理）
-│   └── {requirement-id}/
-├── workspace/                # [废弃] 占位目录（实际工作区迁移至 ../workspace/）
-│   └── {requirement-id}/
-└── .codebuddy/
-    └── commands/             # 自定义命令
-```
-
-#### **分支策略**
-```md
-master（模板，保持干净）
-├── AGENTS.md      # 团队共享的提示词
-├── context/          # 团队共享的知识库
-└── .codebuddy/       # 团队共享的工具
-
-feature/your-work（你的工作分支）
-├── 继承 master 全部内容
-├── requirements/     # 你的需求记录
-└── ../workspace/     # 你的代码（与本仓库同级）
-```
-
 **核心原则：**
-* master 是模板，不直接在上面工作
-* 创建分支开始需求开发
-* 好的实践通过 PR 合并回 master，所有人受益
-
-
+* main 是通过PR更新的知识的仓库，不直接在上面工作。
+* main 作为最新知识库模板，每次基于它Checkout一个新分支进行开发。
+* 各分支确认无误验收后，合并到stable分支中，stable分支中的requirement/将包含各个分支汇总的requirement-id的需求实现内容。
 
 #### **上下文检索：为什么不需要 RAG**
 
@@ -108,14 +83,10 @@ Claude Code 团队最初也尝试过向量 embeddings，但发现了问题：
 
 **我们的方案**：直接给 AI 赋予 `grep`、`find`、`ls` 能力。它能像资深工程师一样，通过文件结构和关键词自己找到答案。
 
-
-
 **组织原则：**
 按领域分文件夹：`tech/`、`business/`、`experience/`
 文件名要清晰：让 `ls` 出来的列表就有语义
 内容是 Markdown：最自然的文本格式
-
-
 
 #### **知识路由表**
 | 信息类型| 放哪里 | 示例 |
@@ -127,7 +98,6 @@ Claude Code 团队最初也尝试过向量 embeddings，但发现了问题：
 | 当前任务进度 | `process.txt` | "API完成, 下一步写测试" |
 | 已确认关键发现 | `notes.md` | "JWT exp 使用UTC时区, 需要注意转换" |
 | 未确认临时记录 | `process.txt` | "发现User表有个字段没用, 待确认"|
-
 
 **决策口诀：**
 1. 是整体计划？→ `plan.md`
