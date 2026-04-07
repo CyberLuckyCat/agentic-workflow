@@ -1,4 +1,4 @@
-# AgenticMetaEngineering
+# agentic-workflow
 
 ## 团队共享：单仓库模式
 
@@ -38,15 +38,35 @@ Claude Code 创作者的实践验证了这一点：
 
 
 ```md
-团队共享仓库（master）
-├── CLAUDE.md          ← 所有人共用的 AI 记忆
-├── context/           ← 所有人共用的知识库
-└── .codebuddy/        ← 所有人共用的工具
+共享仓库作为主分支（main）
+├── CLAUDE 或 任意CLI的可识别AGENTS.md           # 共用的AI行为准则
+├── any-cli 任意CLI工具/                        # 共用的工具（包括cli用到的任意拓展内容）
+│   ├── commands/                              
+│   ├── skills/
+│   ├── plugins/
+│   ├── tools/
+│   ├── hooks/
+│   ├── ...
+│   └── ...
+└── context/                                   # 所有人共用的团队知识库
+│   ├── team/                                  # 团队通用知识
+│   ├── project/                               # 项目特定知识
+│   ├── ...
+│   └── ...
+├── requirements/                              # 需求汇总根目录
+    └── {requirement-id}/                      # 每个需求位于不同feature分支
+            ├── workspace/                     # 需求的工作区
+            └── ...
+    └── {requirement-id}/                      # 每个需求位于不同feature分支
+            ├── workspace/                     # 需求的工作区
+            └── ...
+
+不同fea分支，对应不同需求名或id
 
 开发者 A 的 checkout     开发者 B 的 checkout     开发者 C 的 checkout
-├── (继承 master)        ├── (继承 master)        ├── (继承 master)
-├── feature/auth         ├── feature/payment      ├── bugfix/login
-└── 独立的工作空间        └── 独立的工作空间        └── 独立的工作空间
+  ├── 继承 main            ├── 继承 main            ├── (继承 main)
+  ├── feature/auth         ├── feature/payment      ├── bugfix/login
+  └── 独立requirement空间   └── 独立requirement空间   └── 独立requirement空间
 ```
 
 **这样实现了**：知识共享（大家的 AI 都知道同样的事情）+ 工作隔离（各自的代码改动不会冲突）。
@@ -65,19 +85,19 @@ Claude Code 创作者的实践验证了这一点：
 
 #### **目录结构**
 ```md
-AgenticMetaEngineering/
-├── AGENTS.md              # AI 的"入职手册"（最重要）
+agentic-workflow/
+├── AGENTS.md                 # AI 的"入职手册"（最重要）
 ├── context/                  # 团队知识库
 │   ├── team/                 # 团队通用知识
 │   └── project/              # 项目特定知识
-└── .codebuddy/
+└── .any-cli/
     └── commands/             # 自定义命令
 
 ├── requirements/             # 需求记录（Git 管理）
-│   └── {requirement-id}/
-├── workspace/                # [废弃] 占位目录（实际工作区迁移至 ../workspace/）
-│   └── {requirement-id}/
-
+    └── {requirement-id}/
+            ├── workspace/                # [废弃] 占位目录（实际工作区迁移至 ../workspace/）
+    └── {requirement-id}/
+            ├── workspace/                # [废弃] 占位目录（实际工作区迁移至 ../workspace/）
 ```
 
 #### **分支策略**
