@@ -70,12 +70,14 @@ AgenticMetaEngineering/
 ├── context/                  # 团队知识库
 │   ├── team/                 # 团队通用知识
 │   └── project/              # 项目特定知识
+└── .codebuddy/
+    └── commands/             # 自定义命令
+
 ├── requirements/             # 需求记录（Git 管理）
 │   └── {requirement-id}/
 ├── workspace/                # [废弃] 占位目录（实际工作区迁移至 ../workspace/）
 │   └── {requirement-id}/
-└── .codebuddy/
-    └── commands/             # 自定义命令
+
 ```
 
 #### **分支策略**
